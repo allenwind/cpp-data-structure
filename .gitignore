@@ -1,0 +1,9 @@
+a.out
+*.o
+*.lib
+*.gch
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+*_test
