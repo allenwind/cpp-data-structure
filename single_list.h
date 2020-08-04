@@ -1,3 +1,6 @@
+#ifndef SINGLE_LIST_H_
+#define SINGLE_LIST_H_
+
 #include <iostream>
 
 template <class T>
@@ -5,7 +8,7 @@ struct Node
 {
 	Node<T> * next;
 	T data;
-}
+};
 
 template <class T>
 Node<T> * CreateNode(T data)
@@ -29,5 +32,8 @@ public:
 	SingleList<T> * appendleft(Node<T> * node);
 	SingleList<T> * insert(Node<T> * node, Node<T> * at);
 	void delnode(Node<T> * node);
+	void reverse();
 	Node<T> * first_k(int k);
 }
+
+#endif

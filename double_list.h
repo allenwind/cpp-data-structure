@@ -2,6 +2,7 @@
 #define DOUBLE_LIST_H_
 
 #include <iostream>
+#include <initializer_list>
 
 template <class T>
 struct Node
@@ -37,13 +38,18 @@ private:
 	
 public:
 	DoubleList();
+	DoubleList(const std::initializer_list<T> & il);
+	DoubleList(const std::initializer_list<Node<T>*> & il);
 	~DoubleList();
 	DoubleList<T> * append(Node<T> * node);
 	DoubleList<T> * appendleft(Node<T> * node);
+	DoubleList<T> * appendlist(DoubleList<T> & dl);
 	DoubleList<T> * insert(Node<T> * node, Node<T> * at);
 	void delnode(Node<T> * node);
+	Node<T> * remove(Node<T> * node);
 	void clean();
 	void show();
+	void swap(Node<T> * node1, Node<T> * node2); // swap two node in a list
 	Node<T> * firstk(int k);
 	Node<T> * search(T & data);
 
@@ -57,8 +63,10 @@ public:
 	friend std::ostream & operator<<(std::ostream & os, DoubleList<U> & dl);
 
 	// operator
+	DoubleList<T> * operator<<(Node<T> * node);
 };
 
+// friend
 template <class U>
 std::ostream & operator<<(std::ostream & os, DoubleList<U> & dl)
 {
@@ -72,6 +80,23 @@ DoubleList<T>::DoubleList()
 	len = 0;
 	head = nullptr;
 	tail = nullptr;
+}
+
+template <class T>
+DoubleList<T>::DoubleList(const std::initializer_list<T> & il) : DoubleList()
+{
+	for (auto & x : il)
+	{
+		Node<T> * node = CreateNode(x);
+		append(node);
+	}
+}
+
+template <class T>
+DoubleList<T>::DoubleList(const std::initializer_list<Node<T>*> & il) : DoubleList()
+{
+	for (auto x : il)
+		append(x);
 }
 
 template <class T>
@@ -118,6 +143,13 @@ DoubleList<T> * DoubleList<T>::appendleft(Node<T> * node)
 }
 
 template <class T>
+DoubleList<T> * DoubleList<T>::appendlist(DoubleList<T> & dl)
+{
+	// TODO
+	return this;
+}
+
+template <class T>
 DoubleList<T> * DoubleList<T>::insert(Node<T> * node, Node<T> * at)
 {
 	if (at == nullptr || at == tail)
@@ -139,7 +171,7 @@ template <class T>
 void DoubleList<T>::delnode(Node<T> * node)
 {
 	if (node->prev != nullptr)
-		node->prev-next = node->next;
+		node->prev->next = node->next;
 	else
 		head = node->next; // head node
 	if (node->next != nullptr)
@@ -148,6 +180,12 @@ void DoubleList<T>::delnode(Node<T> * node)
 		tail = node->prev; // tail node;
 	delete node;
 	len--;
+}
+
+template <class T>
+Node<T> * DoubleList<T>::remove(Node<T> * node)
+{
+	
 }
 
 template <class T>
@@ -172,10 +210,11 @@ void DoubleList<T>::show()
 	while (node != nullptr)
 	{
 		std::cout << node->data;
-		std::cout << "->";
+		if (node->next != nullptr)
+			std::cout << "->";
 		node = node->next;
 	}
-	cout << endl;
+	std::cout << std::endl;
 }
 
 template <class T>
@@ -195,9 +234,20 @@ Node<T> * DoubleList<T>::search(T & data)
 	if (head == nullptr)
 		return nullptr;
 	Node<T> * node = head;
-	while (node->data != data)
-		node = node->next;
-	return node;
+	while (node != nullptr)
+	{
+		if (node->data == data)
+			return node;
+		else
+			node = node->next;
+	}
+	return nullptr;
+}
+
+template <class T>
+DoubleList<T> * DoubleList<T>::operator<<(Node<T> * node)
+{
+	return append(node);
 }
 
 #endif
