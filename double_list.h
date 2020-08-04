@@ -50,6 +50,7 @@ public:
 	void clean();
 	void show();
 	void swap(Node<T> * node1, Node<T> * node2); // swap two node in a list
+	void sort(); // sorting list
 	Node<T> * firstk(int k);
 	Node<T> * search(T & data);
 
@@ -215,6 +216,16 @@ void DoubleList<T>::show()
 		node = node->next;
 	}
 	std::cout << std::endl;
+}
+
+template <class T>
+void DoubleList<T>::swap(Node<T> * node1, Node<T> * node2)
+{
+	if (node1 == nullptr || node2 == nullptr)
+		return;
+	T t = node1->data;
+	node1->data = node2->data;
+	node2->data = t;
 }
 
 template <class T>

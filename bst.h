@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <initializer_list>
+#include <utility>
 
 enum class Traverse // enum class in C++11
 {
@@ -49,8 +50,8 @@ public:
     Node<T, U> * min();
     Node<T, U> * max();
     Node<T, U> * search(T & key);
-    Node<T, U> * topk();
-    BinarySearchTree<T, u> * set(T & key, U & value);
+    Node<T, U> * topk(int k);
+    BinarySearchTree<T, U> * set(T & key, U & value);
     BinarySearchTree<T, U> * insert(Node<T, U> * node);
     BinarySearchTree<T, U> * remove(Node<T, U> * node);
     void delnode(Node<T, U> * node);

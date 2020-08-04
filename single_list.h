@@ -34,6 +34,6 @@ public:
 	void delnode(Node<T> * node);
 	void reverse();
 	Node<T> * first_k(int k);
-}
+};
 
 #endif
