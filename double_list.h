@@ -49,9 +49,14 @@ public:
 	Node<T> * remove(Node<T> * node);
 	void clean();
 	void show();
-	void swap(Node<T> * node1, Node<T> * node2); // swap two node in a list
+	void vswap(Node<T> * node1, Node<T> * node2); // vswap two node in a list
+	void swap(Node<T> * node1, Node<T> * node2);
 	void sort(); // sorting list
+	void reverse();
+	void move_to_back(Node<T> * node);
+	void move_to_front(Node<T> * node);
 	Node<T> * firstk(int k);
+	Node<T> * lastk(int k);
 	Node<T> * search(T & data);
 
 	int size() const { return len; }
@@ -64,7 +69,9 @@ public:
 	friend std::ostream & operator<<(std::ostream & os, DoubleList<U> & dl);
 
 	// operator
-	DoubleList<T> * operator<<(Node<T> * node);
+	DoubleList<T> * operator<<(Node<T> * node) { return append(node); }
+	Node<T> * operator[](int k) { return firstk(k); }
+	Node<T> * operator()(int k) { return lastk(k); }
 };
 
 // friend
@@ -171,6 +178,13 @@ DoubleList<T> * DoubleList<T>::insert(Node<T> * node, Node<T> * at)
 template <class T>
 void DoubleList<T>::delnode(Node<T> * node)
 {
+	remove(node);
+	delete node;
+}
+
+template <class T>
+Node<T> * DoubleList<T>::remove(Node<T> * node)
+{
 	if (node->prev != nullptr)
 		node->prev->next = node->next;
 	else
@@ -179,14 +193,8 @@ void DoubleList<T>::delnode(Node<T> * node)
 		node->next->prev = node->prev;
 	else
 		tail = node->prev; // tail node;
-	delete node;
 	len--;
-}
-
-template <class T>
-Node<T> * DoubleList<T>::remove(Node<T> * node)
-{
-	
+	return node;
 }
 
 template <class T>
@@ -219,7 +227,7 @@ void DoubleList<T>::show()
 }
 
 template <class T>
-void DoubleList<T>::swap(Node<T> * node1, Node<T> * node2)
+void DoubleList<T>::vswap(Node<T> * node1, Node<T> * node2)
 {
 	if (node1 == nullptr || node2 == nullptr)
 		return;
@@ -229,13 +237,50 @@ void DoubleList<T>::swap(Node<T> * node1, Node<T> * node2)
 }
 
 template <class T>
+void DoubleList<T>::sort()
+{
+	// TODO
+}
+
+template <class T>
+void DoubleList<T>::reverse()
+{
+	
+}
+
+template <class T>
+void DoubleList<T>::move_to_back(Node<T> * node)
+{
+	remove(node);
+	append(node);
+}
+
+template <class T>
+void DoubleList<T>::move_to_front(Node<T> * node)
+{
+	remove(node);
+	appendleft(node);
+}
+
+template <class T>
 Node<T> * DoubleList<T>::firstk(int k)
 {
 	if (k > len)
 		return nullptr;
 	Node<T> * node = head;
-	for (int i = 0; i < k; i++)
-		node = head->next;
+	for (int i = 0; i < k - 1; i++)
+		node = node->next;
+	return node;
+}
+
+template <class T>
+Node<T> * DoubleList<T>::lastk(int k)
+{
+	if (k > len)
+		return nullptr;
+	Node<T> * node = tail;
+	for (int i = 0; i < k - 1; i++)
+		node = node->prev;
 	return node;
 }
 
@@ -253,12 +298,6 @@ Node<T> * DoubleList<T>::search(T & data)
 			node = node->next;
 	}
 	return nullptr;
-}
-
-template <class T>
-DoubleList<T> * DoubleList<T>::operator<<(Node<T> * node)
-{
-	return append(node);
 }
 
 #endif

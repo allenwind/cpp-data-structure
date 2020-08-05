@@ -4,6 +4,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <utility>
+#include <functional>
 
 enum class Traverse // enum class in C++11
 {
@@ -22,6 +23,13 @@ struct Node
     T key;
     U value;
 };
+
+template <class T>
+bool compare(T & t1, T & t2)
+{
+    // TODO
+    return true;
+}
 
 template <class T, class U>
 Node<T, U> * CreateNode(T & key, U & value)
