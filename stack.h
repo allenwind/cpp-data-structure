@@ -15,12 +15,12 @@ public:
 	//Stack();
 	Stack(int size);
 	~Stack();
-	bool isempty() const;
-	bool isfull() const;
-	int size();
-	int capacity();
+	bool isempty() const { return top == 0; }
+	bool isfull() const { return top == stacksize; }
+	int size() const { return top; }
+	int capacity() const { return stacksize; }
 	void clean();
-	void show();
+	void show() const;
 	bool push(const T & item);
 	bool pop(T & item);
 
@@ -30,8 +30,8 @@ public:
 	Stack & operator=(const Stack & st);
 
 	// friend
-	template <class TT>
-	friend std::ostream & operator<<(std::ostream & os, Stack<TT> & st);
+	template <class U>
+	friend std::ostream & operator<<(std::ostream & os, const Stack<U> & st);
 };
 
 template <class T>
@@ -49,42 +49,17 @@ Stack<T>::~Stack()
 }
 
 template <class T>
-bool Stack<T>::isempty() const
-{
-	return top == 0;
-}
-
-template <class T>
-bool Stack<T>::isfull() const
-{
-	return top == stacksize;
-}
-
-template <class T>
-int Stack<T>::size()
-{
-	return top;
-}
-
-template <class T>
-int Stack<T>::capacity()
-{
-	return stacksize;
-}
-
-template <class T>
 void Stack<T>::clean()
 {
 	top = 0;
 }
 
 template <class T>
-void Stack<T>::show()
+void Stack<T>::show() const
 {
-	using namespace std;
 	for (int i = top - 1; i >= 0; i--)
 	{
-		cout << items[i] << endl;
+		std::cout << items[i] << std::endl;
 	}
 }
 
@@ -136,12 +111,12 @@ Stack<T> & Stack<T>::operator=(const Stack<T> & st)
 	return *this;
 }
 
-template <class TT>
-std::ostream & operator<<(std::ostream & os, Stack<TT> & st)
+// friend
+template <class U>
+std::ostream & operator<<(std::ostream & os, const Stack<U> & st)
 {
 	st.show();
 	return os;
 }
-
 
 #endif
