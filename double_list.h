@@ -44,6 +44,7 @@ public:
 	DoubleList<T> * append(Node<T> * node);
 	DoubleList<T> * appendleft(Node<T> * node);
 	DoubleList<T> * appendlist(DoubleList<T> & dl);
+	DoubleList<T> * mergelists(std::vector<DoubleList<T>*> & lists); // merge k sorted lists
 	DoubleList<T> * insert(Node<T> * node, Node<T> * at);
 	void delnode(Node<T> * node);
 	Node<T> * remove(Node<T> * node);
